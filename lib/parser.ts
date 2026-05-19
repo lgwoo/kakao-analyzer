@@ -2,9 +2,10 @@ import { Message } from "@/types";
 
 // 카카오톡 내보내기 형식 두 가지를 모두 지원
 // 형식 1 (단체방): "2024년 1월 1일 월요일\n오전 10:30, 홍길동 : 안녕"
-// 형식 2 (1:1): "[홍길동] [오전 10:30] 안녕"
+// 형식 2 (그룹/1:1): "[홍길동] [오전 10:30] 안녕"
+// 날짜 헤더: "2021년 12월 10일 금요일" 또는 "--- 2021년 12월 10일 금요일 ---"
 
-const DATE_HEADER_RE = /^(\d{4})년\s+(\d{1,2})월\s+(\d{1,2})일\s+\S+요일/;
+const DATE_HEADER_RE = /(\d{4})년\s+(\d{1,2})월\s+(\d{1,2})일\s+\S+요일/;
 const MSG_FORMAT1_RE = /^(오전|오후)\s+(\d{1,2}):(\d{2}),\s+(.+?)\s+:\s+([\s\S]*)/;
 const MSG_FORMAT2_RE = /^\[(.+?)\]\s+\[(오전|오후)\s+(\d{1,2}):(\d{2})\]\s+([\s\S]*)/;
 
@@ -24,10 +25,9 @@ export function parseKakaoTxt(text: string): Message[] {
   const messages: Message[] = [];
 
   let currentDate = new Date();
-  let format: 1 | 2 | null = null;
 
   for (const line of lines) {
-    // 날짜 헤더 (형식 1)
+    // 날짜 헤더: ^ 없이 매칭해 "--- 2021년 12월 10일 금요일 ---" 형식도 처리
     const dateMatch = line.match(DATE_HEADER_RE);
     if (dateMatch) {
       const [, year, month, day] = dateMatch;
@@ -35,44 +35,36 @@ export function parseKakaoTxt(text: string): Message[] {
       continue;
     }
 
-    // 메시지 형식 1 감지
+    // 메시지 형식 1
     const m1 = line.match(MSG_FORMAT1_RE);
     if (m1) {
-      format = 1;
       const [, ampm, hour, minute, sender, content] = m1;
       const { h, m } = parseTime(ampm, hour, minute);
       const date = new Date(currentDate);
       date.setHours(h, m, 0, 0);
-
       const isMedia = MEDIA_KEYWORDS.some((kw) => content.includes(kw));
       const isDeleted = DELETED_KEYWORDS.some((kw) => content.includes(kw));
-
       messages.push({ date, sender, content, isMedia, isDeleted });
       continue;
     }
 
-    // 메시지 형식 2 감지
+    // 메시지 형식 2
     const m2 = line.match(MSG_FORMAT2_RE);
     if (m2) {
-      format = 2;
       const [, sender, ampm, hour, minute, content] = m2;
       const { h, m } = parseTime(ampm, hour, minute);
-
-      // 형식 2는 날짜 헤더가 없으니 날짜를 메시지 순서로 추정
-      // "YYYY. M. D. 오전/오후 HH:MM" 패턴이 있으면 날짜 갱신
-      const dateLine = line.match(/^(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\./);
-      if (dateLine) {
-        currentDate = new Date(parseInt(dateLine[1]), parseInt(dateLine[2]) - 1, parseInt(dateLine[3]));
-        continue;
-      }
-
       const date = new Date(currentDate);
       date.setHours(h, m, 0, 0);
-
       const isMedia = MEDIA_KEYWORDS.some((kw) => content.includes(kw));
       const isDeleted = DELETED_KEYWORDS.some((kw) => content.includes(kw));
-
       messages.push({ date, sender, content, isMedia, isDeleted });
+      continue;
+    }
+
+    // 어느 패턴에도 안 맞으면 직전 메시지의 연속 줄 (멀티라인 메시지)
+    if (messages.length > 0) {
+      const last = messages[messages.length - 1];
+      last.content += "\n" + line;
     }
   }
 
