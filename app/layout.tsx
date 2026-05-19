@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   keywords: ["카카오톡 분석", "카톡 대화 분석기", "채팅 통계", "카카오톡 통계", "대화 분석", "카톡 분석"],
   authors: [{ name: "kakao-analyzer" }],
   robots: { index: true, follow: true },
+  verification: { google: "oaqC7yIP_4TGLUWwxy1RM94abedhNRQQreLdcBuxdUI" },
   alternates: { canonical: "https://kakao-analyzer.vercel.app" },
   openGraph: {
     title: "카톡 대화 분석기",
