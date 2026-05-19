@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kakao-analyzer.vercel.app/sitemap.xml
+Sitemap: https://kakao-analyzer-seven.vercel.app/sitemap.xml

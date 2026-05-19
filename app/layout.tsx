@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   authors: [{ name: "kakao-analyzer" }],
   robots: { index: true, follow: true },
   verification: { google: "HGhOZ0OcRXE53LXoMj59y5EIEWPS5tw_3sjzHtFpxGE" },
-  alternates: { canonical: "https://kakao-analyzer.vercel.app" },
+  alternates: { canonical: "https://kakao-analyzer-seven.vercel.app" },
   openGraph: {
     title: "카톡 대화 분석기",
     description: "카카오톡 대화 파일을 업로드하면 누가 말이 많은지, 언제 가장 활발한지 분석해드려요.",
-    url: "https://kakao-analyzer.vercel.app",
+    url: "https://kakao-analyzer-seven.vercel.app",
     siteName: "카톡 대화 분석기",
     locale: "ko_KR",
     type: "website",
