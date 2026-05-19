@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💬 카톡 대화 분석기
 
-## Getting Started
+카카오톡 대화 내보내기 파일(.txt)을 업로드하면 대화 패턴을 분석해주는 웹 서비스입니다.
 
-First, run the development server:
+**모든 분석은 브라우저 내에서만 처리되며, 서버로 데이터가 전송되지 않습니다.**
+
+## 주요 기능
+
+- **참여자별 메시지 수** — 누가 제일 말이 많은지 파이차트로
+- **시간대별 대화량** — 몇 시에 가장 활발하게 대화하는지
+- **요일별 대화량** — 주중 vs 주말 패턴 분석
+- **월별 대화량 추이** — 친해진 시점, 소원해진 시점 한눈에
+- **자주 쓰는 단어** — 워드클라우드 시각화
+- **자주 쓰는 이모지** — TOP 10 이모지 순위
+- **평균 답장 속도** — 누가 빠르게 답장하는지
+
+## 카카오톡 내보내기 방법
+
+1. 카카오톡 채팅방 우상단 **≡** 메뉴 열기
+2. 오른쪽 상단 **⋮** → **대화 내보내기**
+3. **텍스트로 내보내기** 선택 후 저장
+4. 저장된 `.txt` 파일을 사이트에 업로드
+
+## 기술 스택
+
+- **Next.js 16** (App Router)
+- **TypeScript**
+- **Tailwind CSS v4**
+- **Recharts** (데이터 시각화)
+
+## 로컬 실행
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[http://localhost:3000](http://localhost:3000)에서 확인
