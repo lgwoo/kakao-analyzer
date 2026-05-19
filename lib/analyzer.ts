@@ -151,8 +151,13 @@ function calcEmojiFrequency(messages: Message[]): EmojiFrequency[] {
 
 function calcLongestStreak(messages: Message[]): number {
   if (messages.length === 0) return 0;
-  const days = new Set(messages.map((m) => m.date.toDateString()));
-  const sorted = Array.from(days).sort();
+  const days = new Set(
+    messages.map((m) => {
+      const d = m.date;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    })
+  );
+  const sorted = Array.from(days).sort(); // YYYY-MM-DD 형식은 문자열 정렬 = 날짜 정렬
 
   let longest = 1;
   let current = 1;
