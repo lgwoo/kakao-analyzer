@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnalysisResult } from "@/types";
 import StatCard from "@/components/StatCard";
-import GoogleAd from "@/components/GoogleAd";
 import MessageCountChart from "@/components/charts/MessageCountChart";
 import HourlyChart from "@/components/charts/HourlyChart";
 import DayOfWeekChart from "@/components/charts/DayOfWeekChart";
@@ -120,9 +119,6 @@ export default function ResultPage() {
           )}
         </div>
 
-        {/* 광고 배너 1 */}
-        <GoogleAd slot="XXXXXXXXXX" />
-
         {/* 차트 그리드 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <MessageCountChart participants={result.participants} />
@@ -134,8 +130,6 @@ export default function ResultPage() {
           <EmojiChart data={result.emojiFrequency} />
         </div>
 
-        {/* 광고 배너 2 */}
-        <GoogleAd slot="XXXXXXXXXX" />
       </div>
     </main>
   );
